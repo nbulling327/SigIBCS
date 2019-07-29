@@ -1,0 +1,68 @@
+import java.lang.Math;
+
+class main {
+  public static void main(String[] args) {
+    
+    RoomSize room = new RoomSize(8,8,11);
+    
+    int areaCovered = 3;  //one can of paint covers 3 sq ft
+    
+    int floorArea = room.floorArea();
+    int wallArea = room.wallArea();
+    int cansNeeded = wallArea/areaCovered;
+    
+    System.out.println("The floor area is "+floorArea+" sq ft.");
+    System.out.println("The wall area is "+wallArea+" sq ft.");
+    System.out.println("You need "+cansNeeded+" cans of paint to paint the walls.");
+
+    CircRoomSize circleRoom = new CircRoomSize(6,10);
+    
+    int circFloorArea = circleRoom.floorArea();
+    int circWallArea = circleRoom.wallArea();
+    int circCansNeeded = circWallArea/areaCovered;
+    
+    System.out.println("The circle room floor area is "+circFloorArea+" sq ft.");
+    System.out.println("The circle room wall area is "+circWallArea+" sq ft.");
+    System.out.println("You need "+circCansNeeded+" cans of paint to paint the circle room walls.");
+    
+    int pi = (int) Math.PI;
+    System.out.println("pi = "+pi);
+  }
+}
+
+class RoomSize {
+  int roomWidth;    //sq ft
+  int roomHeight; 	//sq ft
+  int roomLength;	//sq ft
+  
+  public RoomSize(int roomWidth, int roomHeight, int roomLength){
+    this.roomWidth=roomWidth;
+    this.roomHeight=roomHeight;
+    this.roomLength=roomLength;
+  }  
+  public int floorArea(){
+    return this.roomWidth*this.roomLength;
+  }
+  public int roomPerimeter(){
+    return this.roomWidth*2+this.roomLength*2;
+  }
+  
+  public int wallArea(){
+    return roomPerimeter()*this.roomHeight;
+  }
+}
+
+import java.lang.Math;
+
+class CircRoomSize extends RoomSize{
+  public CircRoomSize(int roomRadius, int roomHeight){
+    super(roomRadius,roomHeight,roomRadius);
+  }
+  public int floorArea(){
+    return (int) (this.roomWidth*this.roomWidth*Math.PI);
+  }  
+  public int roomPerimeter()
+  {
+    return (int) (this.roomWidth*2*Math.PI);
+  }
+}
