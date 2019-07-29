@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+class VariousOperators {
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    
+    System.out.println("Enter a dividend:");
+    int dividend = scan.nextInt();
+    scan.nextLine();
+    
+    System.out.println("Enter a divisor:");
+    int divisor = scan.nextInt();
+    scan.nextLine();
+    
+    int a=0;
+    int b=dividend;
+    
+    while(divisor<=b){
+      a++;
+      b-=divisor;      
+    }
+    
+    System.out.println("a = "+a+".  b = "+b);    
+  }
+}
