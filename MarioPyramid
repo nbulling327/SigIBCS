@@ -1,0 +1,39 @@
+package com.signatureschool;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        int height = getNumber();
+        buildPyramid(height);
+    }
+
+    public static int getNumber() {
+        Scanner sc = new Scanner(System.in);
+        int number = 0;
+        System.out.println("Enter a number:");
+        if (sc.hasNextInt()) {
+            number = sc.nextInt();
+        } else {
+            return getNumber();
+        }
+        if (number > 0 && number < 9) {
+            return number;
+        } else {
+            return getNumber();
+        }
+    }
+
+    public static void buildPyramid(int height) {
+        for (int i = 0; i < height; i++) {
+            for (int k = height - 1; k > i; k--) {
+                System.out.print(" ");
+            }
+            for (int j = 0; j <= i; j++) {
+                System.out.print("#");
+            }
+            System.out.println("#");
+        }
+    }
+}
