@@ -1,96 +1,12 @@
+//Main.java
+
 package com.signatureschool;
 
 public class Main {
 
     public static void main(String[] args) {
         SavingsAccount mrEthridgeAcct = new SavingsAccount("Mr Ethridge", 1, 150,2.5);
-        //mrEthridgeAcct.setAccountAmount(150000);
         mrEthridgeAcct.deposit(75);
 
     }
-}
-
-
-
-package com.signatureschool;
-
-public class SavingsAccount {
-    String accountOwner;
-    int accountNumber;
-    double accountAmount;
-    double interestEarned = 0;
-    int monthlyTransactions = 0;
-    double intRate;
-
-    private String getAccountOwner() {
-        return accountOwner;
-    }
-
-    private void setAccountOwner(String accountOwner) {
-        this.accountOwner = accountOwner;
-    }
-
-    private int getAccountNumber() {
-        return accountNumber;
-    }
-
-    private void setAccountNumber(int accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    private double getAccountAmount() {
-        return accountAmount;
-    }
-
-    private void setAccountAmount(double accountAmount) {
-        this.accountAmount = accountAmount;
-    }
-
-    private double getInterestEarned() {
-        return interestEarned;
-    }
-
-    private void setInterestEarned(double interestEarned) {
-        this.interestEarned = interestEarned;
-    }
-
-    private int getMonthlyTransactions() {
-        return monthlyTransactions;
-    }
-
-    private void setMonthlyTransactions(int monthlyTransactions) {
-        this.monthlyTransactions = monthlyTransactions;
-    }
-
-    private double getIntRate() {
-        return intRate;
-    }
-
-    private void setIntRate(double intRate) {
-        this.intRate = intRate;
-    }
-
-    public SavingsAccount(String accountOwner, int accountNumber, double accountAmount, double intRate) {
-        this.accountOwner = accountOwner;
-        this.accountNumber = accountNumber;
-        this.accountAmount = accountAmount;
-        this.intRate = intRate;
-        System.out.println(accountOwner+", Congratulations!  Your new account has $"+accountAmount);
-    }
-
-    public void deposit(double amount) {
-        setAccountAmount(getAccountAmount()+amount);
-        setMonthlyTransactions(getMonthlyTransactions()+1);
-        System.out.println("Your new balance is $"+getAccountAmount());
-    }
-
-    public void withdrawal(double amount) {
-
-    }
-
-    public void sendAlert() {
-
-    }
-
-
 }
