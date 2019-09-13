@@ -1,0 +1,139 @@
+package com.signature;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        long cardNumber = inputNumber();
+        if (validateNumber(cardNumber)) {
+            checkCarrier(cardNumber);
+        }
+    }
+
+    public static long inputNumber() {
+        Scanner sc = new Scanner(System.in);
+        long cardNumber = 0;
+        while (true) {
+            System.out.println("Input Number: ");
+            if (sc.hasNextLong()) {
+                cardNumber = sc.nextLong();
+            }
+            sc.nextLine();
+            if (cardNumber > 0) {
+                return cardNumber;
+            }
+        }
+    }
+
+    public static boolean validateNumber(long cardNumber) {
+        int place = 0;
+        int sum = 0;
+        while (cardNumber > 0) {
+            if (place % 2 == 0) {
+                sum += lastDigit(cardNumber);
+                cardNumber = removeDigit(cardNumber);
+                place++;
+            } else {
+                int digit = 2 * lastDigit(cardNumber);
+                if (digit > 9) {
+                    digit -= 9;
+                }
+                sum += digit;
+                cardNumber = removeDigit(cardNumber);
+                place++;
+            }
+        }
+        if (sum % 10 != 0) {
+            System.out.println("INVALID!");
+            return false;
+        } else {
+            System.out.println("VALID!");
+            return true;
+        }
+    }
+
+    public static int lastDigit(long number) {
+        return (int) (number % 10);
+    }
+
+    public static long removeDigit(long number) {
+        return number / 10;
+    }
+
+    public static void checkCarrier(long cardNumber) {
+        int numDigits = getDigits(cardNumber);
+        int firstDigit = getFirstDigit(cardNumber);
+        int secondDigit = getSecondDigit(cardNumber);
+        if (!checkAMEX(numDigits, firstDigit, secondDigit)) {
+            if (!checkMastercard(numDigits, firstDigit, secondDigit)) {
+                checkVisa(numDigits, firstDigit);
+            }
+        }
+    }
+
+    public static int getDigits(long number) {
+        int place = 0;
+        while (number > 0) {
+            place++;
+            number=removeDigit(number);
+        }
+        return place;
+    }
+
+    public static int getFirstDigit(long number) {
+        int digit = 0;
+        while (number > 0) {
+            digit = lastDigit(number);
+            number=removeDigit(number);
+        }
+        return digit;
+    }
+
+    public static int getSecondDigit(long number) {
+        int digit = 0;
+        while (number > 10) {
+            digit = lastDigit(number);
+            number=removeDigit(number);
+        }
+        return digit;
+    }
+
+    public static boolean checkAMEX(int numDigits, int firstDigit, int secondDigit) {
+        if (numDigits == 15) {
+            if (firstDigit == 3) {
+                if (secondDigit == 4 || secondDigit == 7) {
+                    System.out.println("AMEX!");
+                    return true;
+                }
+            }
+        }
+        System.out.println("NOT AMEX!");
+        return false;
+    }
+
+    public static boolean checkMastercard(int numDigits, int firstDigit, int secondDigit) {
+        if (numDigits == 16) {
+            if (firstDigit == 5) {
+                if (secondDigit > 0 && secondDigit < 6) {
+                    System.out.println("MASTERCARD!");
+                    return true;
+                }
+            }
+        }
+        System.out.println("NOT MC!");
+        return false;
+    }
+
+    public static boolean checkVisa(int numDigits, int firstDigit) {
+        if (numDigits == 16 || numDigits == 13) {
+            if (firstDigit == 4) {
+                System.out.println("VISA!");
+                return true;
+            }
+        }
+        System.out.println("NOT VISA!");
+        return false;
+    }
+}
