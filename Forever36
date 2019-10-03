@@ -1,0 +1,232 @@
+***THIS IS THE MAIN CLASS***
+
+
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        boolean flag = true;
+        Store[] stores = new Store[100];
+
+        while (flag) {
+
+            int option = initialMenu();
+            if (option == 1) {
+                printStores(stores);
+            } else if (option == 2) {
+                addStore(stores);
+            } else if (option == 3) {
+                pickStore(stores);
+            } else if (option == 4) {
+                flag = false;
+            }
+        }
+    }
+
+    public static int initialMenu() {
+        System.out.println();
+        System.out.println("Welcome!  Pick an option");
+        System.out.println("1 - List Stores");
+        System.out.println("2 - Add Store");
+        System.out.println("3 - Pick Store");
+        System.out.println("4 - Quit");
+
+        Scanner sc = new Scanner(System.in);
+        int option = sc.nextInt();
+        return option;
+    }
+
+    public static void printStores(Store[] stores) {
+        for (int i = 1; i < stores[0].getTotalStores(); i++) {
+            System.out.println("Store " + stores[i].getStoreNumber() + ": " + stores[i].getStoreLocation());
+        }
+        System.out.println();
+    }
+
+
+    public static void addStore(Store[] stores) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Where is store location");
+        String storeLocation = sc.nextLine();
+        int storeNumber = stores[0].getTotalStores();
+        stores[storeNumber] = new Store(storeLocation);
+    }
+
+    public static void pickStore(Store[] stores) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Which store number:");
+        int storeNumber = sc.nextInt();
+        stores[storeNumber].menu();
+    }
+}
+
+
+
+*** THIS IS THE STORE CLASS***
+
+import java.util.Scanner;
+
+public class Store {
+    private static int totalStores=1;
+    private int storeNumber;
+    private String storeLocation;
+    private Employees[] employees;
+    private int creditCardSales=0;
+    private int customers = 0;
+    private double revenue =0;
+    private int itemsSold=0;
+
+    public Store(String storeLocation) {
+        this.storeLocation = storeLocation;
+        this.storeNumber=totalStores;
+        totalStores++;
+        this.employees=new Employees[100];
+    }
+
+    public int getStoreNumber() {
+        return storeNumber;
+    }
+
+    public static int getTotalStores() {
+        return totalStores;
+    }
+
+    public String getStoreLocation() {
+        return storeLocation;
+    }
+
+    public Employees[] getEmployees() {
+        return employees;
+    }
+
+    public int getCreditCardSales() {
+        return creditCardSales;
+    }
+
+    private void setCreditCardSales(int creditCardSales) {
+        this.creditCardSales = creditCardSales;
+    }
+
+    public int getCustomers() {
+        return customers;
+    }
+
+    private void setCustomers(int customers) {
+        this.customers = customers;
+    }
+
+    public double getRevenue() {
+        return revenue;
+    }
+
+    private void setRevenue(double revenue) {
+        this.revenue = revenue;
+    }
+
+    public void menu(){
+        boolean flag = true;
+        Scanner sc = new Scanner(System.in);
+        while (flag){
+            System.out.println();
+            System.out.println(getStoreLocation()+" Store Options:");
+            System.out.println("1 - Get Credit Card Conversions");
+            System.out.println("2 - Check in Register");
+            System.out.println("3 - Print Employee Roster");
+            System.out.println("4 - Add Employee");
+            System.out.println("5 - Quit");
+
+            int option = sc.nextInt();
+            if (option==1){
+                this.getCCConversions(employees);
+            }
+            else if(option==2){
+                this.checkInRegister(getEmployees());
+            }
+            else if(option==3){
+                this.printRoster(getEmployees());
+            }
+            else if(option==4){
+                this.addEmployee(getEmployees());
+            }
+            else if(option==5){
+                flag=false;
+            }
+        }
+    }
+
+    private void addEmployee(Employees[] employees){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Employee Name:");
+        String employeeName=sc.nextLine();
+        int employee = employees[0].getTotalEmployees();
+        employees[employee]=new Employees(employeeName);
+    }
+
+    private void printRoster(Employees[] employees){
+        for(int i=1; i<employees[0].getTotalEmployees();i++){
+            System.out.println("Employee "+employees[i].getEmployeeNumber()+": "+employees[i].getEmployeeName());
+        }
+    }
+    
+    
+    ***THIS IS THE EMPLOYEES CLASS***
+    
+    package com.signature;
+
+public class Employees {
+    private static int totalEmployees=1;
+    private int employeeNumber;
+    private String employeeName;
+    private int creditCardSales=0;
+    private int customers = 0;
+    private double revenue =0;
+
+    public Employees(String employeeName) {
+        this.employeeName = employeeName;
+        this.employeeNumber=totalEmployees;
+        totalEmployees++;
+    }
+
+    public static int getTotalEmployees() {
+        return totalEmployees;
+    }
+
+    public int getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public int getCreditCardSales() {
+        return creditCardSales;
+    }
+
+    public void setCreditCardSales(int creditCardSales) {
+        this.creditCardSales = creditCardSales;
+    }
+
+    public int getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(int customers) {
+        this.customers = customers;
+    }
+
+    public double getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(double revenue) {
+        this.revenue = revenue;
+    }
+
+    public double effectiveness(){
+        double effectiveness =  (double) this.getCreditCardSales()/this.getCustomers();
+        return effectiveness;
+    }
+}
