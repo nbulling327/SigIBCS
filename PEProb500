@@ -1,0 +1,115 @@
+package com.signature;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        long[] factors = new long[1000000];                     //array of prime factors
+        long[] factorsPower = new long[1000000];                //array of prime factors raised to current power
+        long[] powers = new long[1000000];                      //array of exponents for corresponding prime factor
+        long marker = 0;                                        //marker to see largest prime factor raised
+        long[] answer = new long[2];
+        initializeFactors(factorsPower, factors);               //initialize prime factors array
+        initializePowers(powers);                               //initialize powers array with all 1s instead of 0s
+        System.out.println("Arrays Initialized to " + factors[powers.length - 1]);
+
+        while (calcNumFactors(powers) < 500500) {
+            marker = findMinFactor(factorsPower, powers, marker);
+        }
+        answer = findProduct(factors, powers, marker);
+        System.out.println("Product: " + answer[0] % 500500507);
+    }
+
+    public static long[] initializeFactors(long[] factors, long[] factorsPower) {
+        int i = 0;
+        long x = 2;
+        while (i < factors.length) {
+            if (isPrime(x)) {
+                factors[i] = x;
+                factorsPower[i] = x;
+                i++;
+                x++;
+            } else {
+                x++;
+            }
+        }
+        return factors;
+    }
+
+    public static Boolean isPrime(long a) {
+        for (int i = 2; i <= Math.sqrt(a); i++) {
+            if (a % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static long[] initializePowers(long[] powers) {
+        for (int i = 0; i < powers.length; i++) {
+            powers[i] = 1;
+        }
+        return powers;
+    }
+
+    public static long calcNumFactors(long[] powers) {
+        long x = 1;
+        long j = 0;
+        for (int i = 0; i < powers.length; i++) {
+            x = x * powers[i];
+            while (x > 1) {
+                x /= 2;
+                j = j + 1L;
+            }
+        }
+        return j;
+    }
+
+    public static long findMinFactor(long[] numPower, long[] power, long marker) {
+        long minFactor = Long.MAX_VALUE;
+        int minPlace = 0;
+        for (int i = 0; i <= marker + 1; i++) {
+            if (numPower[i] < minFactor) {
+                minFactor = numPower[i];
+                minPlace = i;
+                if (i > marker) {
+                    marker = i;
+                }
+            }
+        }
+        numPower[minPlace] *= numPower[minPlace];           //update numPower
+        power[minPlace] = power[minPlace] * 2;              //update powers array
+        return marker;
+    }
+
+
+    public static long[] power(long x, long y, long overflow) {
+        long[] retArray = new long[]{0, 0};
+        long j = 1;
+        for (int i = 0; i < y; i++) {
+            j = j * x;
+            overflow += j / 500500507;
+            j %= 500500507;
+        }
+        retArray[0] = overflow;
+        retArray[1] = j;
+        return retArray;
+    }
+
+    public static long[] findProduct(long[] factors, long[] powers, long marker) {
+        long p = 1L;
+        long overflow = 0;
+        long[] handleArray = new long[]{0, 0};
+        long[] retArray = new long[]{0, 1};
+        for (int i = 0; i < marker + 1; i++) {
+            overflow += p / 500500507;
+            p %= 500500507;
+            handleArray = power(factors[i], powers[i] - 1, overflow);
+            p *= handleArray[1];
+            overflow = handleArray[0];
+        }
+        retArray[0] = p;
+        retArray[1] = overflow;
+        return retArray;
+    }
+}
