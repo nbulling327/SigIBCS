@@ -1,0 +1,171 @@
+***MAIN***
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Car nicksCar=new Car(4,true,5);
+        nicksCar.setGear(3);
+        nicksCar.move();
+        nicksCar.turnLeft();
+        nicksCar.setGear(5);
+        nicksCar.move();
+        nicksCar.turnLeft();
+        nicksCar.setGear(-1);
+        nicksCar.move();
+    }
+}
+
+
+***VEHICLE***
+
+
+import java.util.Scanner;
+
+public class Vehicle {
+    private int wheels;
+    private int capacity = 1;
+    private int loc_x = 0;
+    private int loc_y = 0;
+    private String direction = "north";
+
+    public Vehicle(int wheels, int capacity) {
+        this.wheels = wheels;
+        this.capacity = capacity;
+        System.out.println("You have created a vehicle with " + wheels + " wheels.  It holds " + capacity + ".");
+    }
+
+    public int getWheels() {
+        return wheels;
+    }
+
+    public int getLoc_x() {
+        return loc_x;
+    }
+
+    public void setLoc_x(int loc_x) {
+        this.loc_x = loc_x;
+    }
+
+    public int getLoc_y() {
+        return loc_y;
+    }
+
+    public void setLoc_y(int loc_y) {
+        this.loc_y = loc_y;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public void forward(int steps) {
+        if (getDirection().equals("north")) {
+            setLoc_y(getLoc_y() + steps);
+            System.out.println("You moved " + steps + " steps north.  You are now at (" + getLoc_x() + ", " + getLoc_y() + ").");
+        } else if (getDirection().equals("east")) {
+            setLoc_x(getLoc_x() + steps);
+            System.out.println("You moved " + steps + " steps east.  You are now at (" + getLoc_x() + ", " + getLoc_y() + ").");
+        } else if (getDirection().equals("south")) {
+            setLoc_y(getLoc_y() - steps);
+            System.out.println("You moved " + steps + " steps south.  You are now at (" + getLoc_x() + ", " + getLoc_y() + ").");
+        } else if (getDirection().equals("west")) {
+            setLoc_x(getLoc_x() - steps);
+            System.out.println("You moved " + steps + " steps west.  You are now at (" + getLoc_x() + ", " + getLoc_y() + ").");
+
+        }
+    }
+
+    public void changeDirection() {
+        System.out.println("Which direction?");
+        Scanner sc = new Scanner(System.in);
+        String direction = sc.nextLine();
+        if (direction.equals("north") || direction.equals("east") || direction.equals("south") || direction.equals("west")) {
+            setDirection(direction);
+            System.out.println("You are now travelling " + getDirection() + ".");
+        } else {
+            changeDirection();
+        }
+    }
+
+    public void turnLeft() {
+        if (getDirection().equals("north")) {
+            setDirection("west");
+        } else if (getDirection().equals("east")) {
+            setDirection("north");
+        } else if (getDirection().equals("south")) {
+            setDirection("east");
+        } else if (getDirection().equals("west")) {
+            setDirection("south");
+        }
+        System.out.println("You are now travelling " + getDirection() + ".");
+
+    }
+
+    public void turnRight() {
+        if (getDirection().equals("south")) {
+            setDirection("west");
+        } else if (getDirection().equals("west")) {
+            setDirection("north");
+        } else if (getDirection().equals("north")) {
+            setDirection("east");
+        } else if (getDirection().equals("east")) {
+            setDirection("south");
+        }
+        System.out.println("You are now travelling " + getDirection() + ".");
+
+    }
+}
+
+
+***CAR***
+
+public class Car extends Vehicle{
+    private int doors;
+    private boolean fast;
+    private int gear=0;
+
+    public Car(int doors, boolean fast, int capacity) {
+        super(4, capacity);
+        this.doors = doors;
+        this.fast = fast;
+        System.out.println("Your car has "+getDoors()+" doors.");
+        if(isFast()){
+            System.out.println("It is fast!");
+        }
+    }
+
+    public Car(int doors, int capacity) {
+        this(doors,false,capacity);
+    }
+
+    public int getDoors() {
+        return doors;
+    }
+
+    public boolean isFast() {
+        return fast;
+    }
+
+    public int getGear() {
+        return gear;
+    }
+
+    public void setGear(int gear) {
+        this.gear = gear;
+        System.out.println("You are in "+getGear()+" gear.");
+    }
+
+    public void move(){
+        if(isFast()){
+            super.forward(getGear()*8);
+        }
+        else{
+            super.forward(getGear()*5);
+        }
+    }
+}
