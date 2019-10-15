@@ -1,0 +1,77 @@
+*****************************************************************
+
+public class Main {
+
+    public static void main(String[] args) {
+        Forward zlatan = new Forward("Zlatan Ibrahimovic", 9);
+        zlatan.handball();
+        zlatan.yellAtRef();
+
+        GoalKeeper neuer=new GoalKeeper("Manuel Neuer",1);
+        neuer.handball();
+        neuer.yellAtRef("magic word");
+        zlatan.yellAtRef("YES!");
+        neuer.handball(false);
+    }
+}
+
+*****************************************************************
+
+*****************************************************************
+
+public class SoccerPlayer {
+    private String name;
+    private int number;
+
+    public SoccerPlayer(String name, int number) {
+        this.name = name;
+        this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void handball(){
+        System.out.println("Penalty - Handball on "+this.name+"!");
+    }
+
+    public void yellAtRef(){
+        System.out.println("Verbal Warning - "+this.name+"!");
+    }
+
+    public void yellAtRef(String word){
+        if(word.equals("magic word")){
+            System.out.println("Yellow Card - "+this.name+"!");
+        }
+        else{
+            yellAtRef();
+        }
+    }
+}
+
+*****************************************************************
+
+*****************************************************************
+
+public class GoalKeeper extends SoccerPlayer{
+
+    public GoalKeeper(String name, int number) {
+        super(name, number);
+    }
+
+    public void handball(){
+        System.out.println("Save! - "+getName());
+    }
+
+    public void handball(boolean inBox){
+        if(!inBox){
+            super.handball();
+        }
+        else{
+            handball();
+        }
+    }
+}
+
+*****************************************************************
