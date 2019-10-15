@@ -1,0 +1,126 @@
+*****************************************************
+
+
+import static com.google.common.math.IntMath.mod;
+
+public class Main {
+
+
+    public static void main(String[] args) {
+        Calculator calculator=new Calculator();
+
+        int x = mod(7,3);
+        System.out.println(x);
+
+    }
+}
+
+*****************************************************
+
+
+*****************************************************
+
+import java.util.Scanner;
+
+public class Calculator {
+
+    public Calculator() {
+        //calc();
+    }
+
+    public void calc() {
+        double area = 0;
+        boolean flag = true;
+        while (flag) {
+
+            System.out.println("Calc Area:" +
+                    "\n 1 - Circle" +
+                    "\n 2 - Triangle" +
+                    "\n 3 - Rectangle" +
+                    "\n 4 - Other Regular Polygon" +
+                    "\n 5 - Quit calculating");
+            Scanner sc = new Scanner(System.in);
+            int choice = sc.nextInt();
+            if (choice == 1) {
+                System.out.println("Enter radius (no units):");
+                double radius = sc.nextDouble();
+                area = calcArea(radius);
+            } else if (choice == 2) {
+                System.out.println("Enter side length 1:");
+                double sideOne = sc.nextDouble();
+                System.out.println("Enter side length 2:");
+                double sideTwo = sc.nextDouble();
+                System.out.println("Enter side length 1:");
+                double sideThree = sc.nextDouble();
+                area = calcArea(sideOne, sideTwo, sideThree);
+            } else if (choice == 3) {
+                System.out.println("Enter side length 1:");
+                double sideOne = sc.nextDouble();
+                System.out.println("Enter side length 2:");
+                double sideTwo = sc.nextDouble();
+                area = calcArea(sideOne, sideTwo);
+            } else if (choice == 4) {
+                System.out.println("Enter side length:");
+                double sideLength = sc.nextDouble();
+                System.out.println("Enter number of sides:");
+                int sides = sc.nextInt();
+                area = calcArea(sideLength, sides);
+            } else {
+                flag = false;
+                break;
+            }
+            System.out.println("Area is: " + area);
+
+        }
+    }
+
+    public double calcArea(double r) {
+        double area = r * r * Math.PI;
+        return area;
+    }
+
+    public double calcArea(double x, double y, double z) {
+        double semiPerimeter = (x + y + z) / 2;
+        double area = Math.sqrt((semiPerimeter - x) * (semiPerimeter - y) * (semiPerimeter - z) * (semiPerimeter));
+        return area;
+    }
+
+    public double calcArea(double x, double y) {
+        double area = x * y;
+        return area;
+    }
+
+    public double calcArea(double x, int y) {
+        double halfCentAngle = (360 / (y * 2))*Math.PI/180;
+        double halfSide = x / 2;
+        double apothem = halfSide / Math.tan(halfCentAngle);
+        double area = x * y * apothem / 2;
+        return area;
+    }
+
+}
+
+*****************************************************
+
+
+*****************************************************
+
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class CalculatorTests {
+    Calculator calculator = new Calculator();
+
+    @Test
+    void test(){
+        assertEquals(10,calculator.calcArea(5,2.0));
+        //assertEquals(3.14,calculator.calcArea(1));
+        //assertEquals(16,calculator.calcArea(4,4));
+        assertEquals(16,calculator.calcArea(4,4.0));
+
+    }
+}
+
+*****************************************************
