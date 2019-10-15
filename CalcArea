@@ -1,9 +1,6 @@
-*****************************************************
+**import static com.google.common.math.IntMath.mod;**
 
-
-import static com.google.common.math.IntMath.mod;
-
-**public class Main {**
+*public class Main {*
 
 
     public static void main(String[] args) {
