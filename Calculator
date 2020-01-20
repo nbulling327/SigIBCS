@@ -1,0 +1,144 @@
+***MAIN***
+package com.signature;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+	// write your code here
+    }
+}
+
+
+
+***CALCULATOR***
+package com.signature;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Calculator extends JFrame implements ActionListener {
+    //Create a container for Calculator Contents    
+    Container contentPane = getContentPane();
+
+    //Create JBUTTONS for Calculator
+    JButton one = new JButton("1");
+    JButton two = new JButton("2");
+    JButton three = new JButton("3");
+    JButton four = new JButton("4");
+    JButton five = new JButton("5");
+    JButton six = new JButton("6");
+    JButton seven = new JButton("7");
+    JButton eight = new JButton("8");
+    JButton nine = new JButton("9");
+    JButton zero = new JButton("0");
+
+    JButton add = new JButton("+");
+    JButton equal = new JButton("=");
+    JButton subtract = new JButton("-");
+    JButton times = new JButton("x");
+    JButton divide = new JButton("/");
+    JButton clear = new JButton("CLR");
+
+    //Create text area for entry
+    JTextArea txt = new JTextArea();
+    
+    //Create placeholder for adding and subtraction
+    int add1=0;
+    int add2=0;
+    int subtract1 = 0;
+    int subtract2=0;
+
+    //Constructor
+    public Calculator(){
+        super("IB CS SL CALCULATOR");
+        setSize(400,600);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JPanel pnl = new JPanel(new GridLayout(4,4));
+
+        //creating listeners inside constructor
+        one.addActionListener(this);
+        two.addActionListener(this);
+        three.addActionListener(this);
+
+        four.addActionListener(this);
+        five.addActionListener(this);
+        six.addActionListener(this);
+        seven.addActionListener(this);
+        eight.addActionListener(this);
+        nine.addActionListener(this);
+        zero.addActionListener(this);
+
+        equal.addActionListener(this);
+        add.addActionListener(this);
+        subtract.addActionListener(this);
+        times.addActionListener(this);
+        divide.addActionListener(this);
+        clear.addActionListener(this);
+
+        //setting default txt value when calculator opens
+        txt.setText("0");
+
+        pnl.add(divide);
+        pnl.add(subtract);
+        pnl.add(times);
+        pnl.add(add);
+
+        pnl.add(seven);
+        pnl.add(eight);
+        pnl.add(nine);
+        pnl.add(clear);
+
+        pnl.add(four);
+        pnl.add(five);
+        pnl.add(six);
+        pnl.add(equal);
+
+        pnl.add(one);
+        pnl.add(two);
+        pnl.add(three);
+        pnl.add(zero);
+
+        //addinng buttons and text field to content pane
+        contentPane.add("North",txt);
+        contentPane.add("Center",pnl);
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent event){
+
+        if(event.getSource()==one){
+            txt.append("1");
+        }
+        if(event.getSource()==two){
+            txt.append("2");
+        }
+
+        if(event.getSource()==add){
+            subtract1=0;
+            subtract2=0;
+            String adder1 = txt.getText();
+            add1=Integer.parseInt(adder1);
+            txt.setText("0");
+        }
+
+        if(event.getSource()==equal){
+            if(add1!=0){
+                String adder2 = txt.getText();
+                add2=Integer.parseInt(adder2);
+                int sum = add1+add2;
+                txt.setText(Integer.toString(sum));
+            }
+        }
+    }
+
+    int toInt(String a){
+        int val =0;
+        for(int i =0;i<a.length();i++){
+            val = (val * 10) + (int) a.charAt(i);
+        }
+        return val;
+    }
+}
