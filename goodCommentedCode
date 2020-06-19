@@ -1,23 +1,33 @@
     /**
      *
      *  This method returns the value of a particular number in the fibonacci sequence at
-     *  an indexed location
+     *  an indexed location.  List is 0-indexed.
      *
-     *  1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
+     *  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
      *
      * @param fibIndex  the index of the Fibonacci number in the Fibonacci Sequence
      * @return          the value of the Fibonacci number at index fibIndex
      */
+    
     public static int findFibNumber(int fibIndex)
     {
-        int secondPreviousValue=0;
-        int firstPreviousValue=1;
-        int currentValue=1;
-        for(int i=1;i<fibIndex;i++)
+        //Dealing with corner-case of first index in sequence
+        if(fibIndex==0)
         {
-            currentValue=firstPreviousValue+secondPreviousValue;
-            secondPreviousValue=firstPreviousValue;
-            firstPreviousValue=currentValue;
+            return 0;
         }
-        return currentValue;
+
+        //Returns value of fibonacci number in all other instances
+        else{
+            int secondPreviousValue=0;
+            int firstPreviousValue=1;
+            int currentValue=1;
+            for(int i=1;i<fibIndex;i++)
+            {
+                currentValue=firstPreviousValue+secondPreviousValue;
+                secondPreviousValue=firstPreviousValue;
+                firstPreviousValue=currentValue;
+            }
+            return currentValue;
+        }
     }
