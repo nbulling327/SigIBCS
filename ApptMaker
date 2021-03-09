@@ -1,0 +1,73 @@
+package com.signature;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class ApptMaker extends JFrame implements ActionListener {
+
+    //Create a Container to add my Jpanels too
+    Container contentPane = getContentPane();
+
+    //Create a JPanel for my program navigation (though would likely make more sense as menu)
+    JPanel pnl = new JPanel();
+
+    //Create a JPanel for my program actions
+    //Gave a grid layout - 3 rows, 3 cols, 40 pxl hz gap, 20 pxl vert gap
+    JPanel grid = new JPanel(new GridLayout(1, 3, 40, 20));
+
+    //Create a JLabel
+    JLabel txt = new JLabel("Would you like to exit?");
+
+    //Create JButtons
+    JButton addBtn = new JButton("Add Appt");
+    JButton viewBtn = new JButton("See Appts");
+    JButton cancelBtn = new JButton("Cancel Appt");
+
+    JButton exitBtn = new JButton("Exit");
+
+
+
+    public ApptMaker(boolean panel, boolean grd) {
+        super("HOME");
+        setSize(500, 200);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        txt.setFont(new Font("Arial", Font.BOLD, 18));
+
+        pnl.add(exitBtn);
+        exitBtn.addActionListener(this);
+
+        grid.add(addBtn);
+        addBtn.addActionListener(this);
+
+        grid.add(viewBtn);
+        viewBtn.addActionListener(this);
+
+        grid.add(cancelBtn);
+        cancelBtn.addActionListener(this);
+
+        contentPane.add("South",pnl);
+        contentPane.add("Center", grid);
+
+        pnl.setVisible(panel);
+        grid.setVisible(grd);
+
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == exitBtn){
+            System.exit(75);
+        }
+        else if(e.getSource()==addBtn){
+            setVisible(false);
+            ApptEntry entry = new ApptEntry();
+        }
+        else if(e.getSource()==viewBtn){
+            setVisible(false);
+            ViewAppts view = new ViewAppts();
+        }
+    }
+}
