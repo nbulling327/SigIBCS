@@ -1,0 +1,59 @@
+package com.signature;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Wind extends JFrame {
+
+    //Create a Container to add my Jpanels too
+    Container contentPane = getContentPane();
+
+    //Create a JPanel for my program navigation (though would likely make more sense as menu)
+    JPanel pnl = new JPanel();
+
+    //Create a JPanel for my program actions
+    //Gave a grid layout - 3 rows, 3 cols, 40 pxl hz gap, 20 pxl vert gap
+    JPanel grid = new JPanel(new GridLayout(3,3,40,20));
+
+    //Create a JLabel
+    JLabel txt = new JLabel("Would you like to exit?");
+
+    //Create JButtons
+    JButton yesBtn = new JButton("Yes");
+    JButton noBtn = new JButton("No");
+    JButton upBtn = new JButton("UP");
+    JButton downBtn = new JButton("DOWN");
+    JButton leftBtn = new JButton("LEFT");
+    JButton rightBtn = new JButton("RIGHT");
+
+
+    public Wind(boolean panel, boolean grd){
+        super("GUI Window");
+        setSize(500,200);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        txt.setFont(new Font("Arial",Font.BOLD,18));
+
+        pnl.add(txt);
+        pnl.add(yesBtn);
+        pnl.add(noBtn);
+
+        grid.add(new Label(""));
+        grid.add(upBtn);
+        grid.add(new Label(""));
+        grid.add(leftBtn);
+        grid.add(new Label(""));
+        grid.add(rightBtn);
+        grid.add(new Label(""));
+        grid.add(downBtn);
+        grid.add(new Label(""));
+
+        contentPane.add("North",pnl);
+        contentPane.add("South",grid);
+
+        pnl.setVisible(panel);
+        grid.setVisible(grd);
+
+        setVisible(true);
+    }
+}
