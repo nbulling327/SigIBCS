@@ -1,0 +1,132 @@
+package com.signature;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+public class ViewAppts extends JFrame implements ActionListener {
+
+    ArrayList<Appointment> appts;
+
+    //Create a Container to add my Jpanels too
+    Container contentPane = getContentPane();
+
+    //Create a JPanel for my program navigation (though would likely make more sense as menu)
+    JPanel pnl = new JPanel();
+
+    //Create a JPanel for my program actions
+    //Gave a grid layout - 3 rows, 3 cols, 40 pxl hz gap, 20 pxl vert gap
+    JPanel grid = new JPanel(new GridLayout(1, 2, 40, 20));
+
+    JTextArea textArea = new JTextArea(10, 38);
+
+    //Create JButtons
+    JButton exitBtn = new JButton("Exit");
+    JButton mainBtn = new JButton("Home");
+
+    public ViewAppts() {
+        super("GUI Window");
+
+        appts = new ArrayList<Appointment>();
+
+        setSize(500, 300);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        grid.add(exitBtn);
+        exitBtn.addActionListener(this);
+
+        grid.add(mainBtn);
+        mainBtn.addActionListener(this);
+
+        pnl.add(textArea);
+        textArea.append(loadAppts());
+
+        contentPane.add("North", grid);
+        contentPane.add("Center", pnl);
+
+        pnl.setVisible(true);
+
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == exitBtn) {
+            System.exit(76);
+        }
+
+    }
+
+    public String loadAppts() {
+        File dat = loadFile();
+        appts = loadSchedule(dat);
+        String statement = "";
+        for(Appointment appt: appts){
+            statement=statement+appt+"\n";
+        }
+        return statement;
+    }
+
+    public File loadFile() {
+        try {
+
+            //referenced https://www.geeksforgeeks.org/file-createnewfile-method-in-java-with-examples/
+            // Get the file
+            File dat = new File("data.csv");
+
+            // Create new file
+            // if it does not exist
+            if (dat.createNewFile()) {
+                System.out.println("File not found. New file created");
+            } else {
+                System.out.println("File found");
+            }
+            return dat;
+        } catch (Exception e) {
+            System.err.println(e);
+            return null;
+        }
+    }
+
+    public ArrayList<Appointment> loadSchedule(File dat) {
+        ArrayList<Appointment> appts = new ArrayList<Appointment>();
+        String name = dat.getName();
+        try {
+            FileReader file = new FileReader(name);
+            BufferedReader buffer = new BufferedReader(file);
+            String line = "";
+            boolean flag = true;
+            while (flag) {
+                line = buffer.readLine();
+                if (line == null) {
+                    System.out.println("All appointments loaded.");
+                    buffer.close();
+                    flag = false;
+                } else {
+                    System.out.println(line);
+                    int begDate = 0;
+                    int endDate = line.indexOf(",",begDate);
+
+                    int begAppt = line.indexOf("\"", endDate + 1) + 1;
+                    int endAppt = line.indexOf("\"", begAppt + 1);
+
+
+                    String date = line.substring(begDate,endDate);
+                    String appt = line.substring(begAppt, endAppt);
+                    appts.add(new Appointment(date,appt));
+
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("A read error occurred.");
+        }
+        return appts;
+    }
+}
